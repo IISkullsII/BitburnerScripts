@@ -2,13 +2,13 @@ declare module "Bitburner" {
     /** All netscript definitions */
 
     /** @public */
-    interface HP {
+    interface IHP {
         current: number;
         max: number;
     }
 
     /** @public */
-    interface Skills {
+    interface ISkills {
         hacking: number;
         strength: number;
         defense: number;
@@ -34,16 +34,16 @@ declare module "Bitburner" {
     type FilenameOrPID = number | string;
 
     /** @public */
-    interface Person {
-        hp: HP;
-        skills: Skills;
-        exp: Skills;
-        mults: Multipliers;
-        city: CityName;
+    interface IPerson {
+        hp: IHP;
+        skills: ISkills;
+        exp: ISkills;
+        mults: IMultipliers;
+        city: ECityName;
     }
 
     /** @public */
-    interface Player extends Person {
+    interface IPlayer extends IPerson {
         money: number;
         numPeopleKilled: number;
         entropy: number;
@@ -54,7 +54,7 @@ declare module "Bitburner" {
     }
 
     /** @public */
-    interface SleevePerson extends Person {
+    interface SleevePerson extends IPerson {
         /** Number 0-100 Experience earned and shared is multiplied with shock% before sync% */
         shock: number;
         /** Number 1-100 Experience earned by this sleeve and shared with the player is multiplied with sync% after shock% */
@@ -106,7 +106,7 @@ declare module "Bitburner" {
     }
 
     /** @public */
-    interface Multipliers {
+    interface IMultipliers {
         /** Multiplier to hacking skill */
         hacking: number;
         /** Multiplier to strength skill */
@@ -515,7 +515,7 @@ declare module "Bitburner" {
      * A server. Not all servers have all of these properties - optional properties are missing on certain servers.
      * @public
      */
-    export interface Server {
+    export interface IServer {
         /** Hostname. Must be unique */
         hostname: string;
         /** IP Address. Must be unique */
@@ -1588,7 +1588,7 @@ declare module "Bitburner" {
          * @param city - City to travel to.
          * @returns True if action is successful, false otherwise.
          */
-        travelToCity(city: CityName | `${CityName}`): boolean;
+        travelToCity(city: ECityName | `${ECityName}`): boolean;
 
         /**
          * Purchase the TOR router.
@@ -2173,7 +2173,7 @@ declare module "Bitburner" {
          * @param name - Name of Augmentation. CASE-SENSITIVE.
          * @returns Augmentation stats.
          */
-        getAugmentationStats(name: string): Multipliers;
+        getAugmentationStats(name: string): IMultipliers;
 
         /**
          * Install your purchased augmentations.
@@ -2379,7 +2379,7 @@ declare module "Bitburner" {
         nextPosition: JobName | null;
         salary: number;
         requiredReputation: number;
-        requiredSkills: Skills;
+        requiredSkills: ISkills;
     }
 
     /**
@@ -3112,7 +3112,7 @@ declare module "Bitburner" {
          * @param city - Name of city. Case-sensitive
          * @returns Estimated number of Synthoids in the specified city.
          */
-        getCityEstimatedPopulation(city: CityName | `${CityName}`): number;
+        getCityEstimatedPopulation(city: ECityName | `${ECityName}`): number;
 
         /**
          * Get number of communities in a city.
@@ -3125,7 +3125,7 @@ declare module "Bitburner" {
          * @param city - Name of city. Case-sensitive
          * @returns Number of Synthoids communities in the specified city.
          */
-        getCityCommunities(city: CityName | `${CityName}`): number;
+        getCityCommunities(city: ECityName | `${ECityName}`): number;
 
         /**
          * Get chaos of a city.
@@ -3138,7 +3138,7 @@ declare module "Bitburner" {
          * @param city - Name of city. Case-sensitive
          * @returns Chaos in the specified city.
          */
-        getCityChaos(city: CityName | `${CityName}`): number;
+        getCityChaos(city: ECityName | `${ECityName}`): number;
 
         /**
          * Get current city.
@@ -3149,7 +3149,7 @@ declare module "Bitburner" {
          *
          * @returns City that the player is currently in (for Bladeburner).
          */
-        getCity(): CityName;
+        getCity(): ECityName;
 
         /**
          * Travel to another city in bladeburner.
@@ -3162,7 +3162,7 @@ declare module "Bitburner" {
          * @param city - Name of city. Case-sensitive
          * @returns true if successful, and false otherwise
          */
-        switchCity(city: CityName | `${CityName}`): boolean;
+        switchCity(city: ECityName | `${ECityName}`): boolean;
 
         /**
          * Get bladeburner stamina.
@@ -3783,7 +3783,7 @@ declare module "Bitburner" {
          * @param city - Name of the destination city.
          * @returns True if the sleeve reached destination, false otherwise.
          */
-        travel(sleeveNumber: number, city: CityName | `${CityName}`): boolean;
+        travel(sleeveNumber: number, city: ECityName | `${ECityName}`): boolean;
 
         /**
          * Get augmentations installed on a sleeve.
@@ -3954,26 +3954,26 @@ declare module "Bitburner" {
      * @public
      */
     interface WorkFormulas {
-        crimeSuccessChance(person: Person, crimeType: CrimeType | `${CrimeType}`): number;
+        crimeSuccessChance(person: IPerson, crimeType: CrimeType | `${CrimeType}`): number;
 
         /** @returns The WorkStats gained when completing one instance of the specified crime. */
-        crimeGains(person: Person, crimeType: CrimeType | `${CrimeType}`): WorkStats;
+        crimeGains(person: IPerson, crimeType: CrimeType | `${CrimeType}`): WorkStats;
 
         /** @returns The WorkStats applied every game cycle (200ms) by taking the specified gym class. */
-        gymGains(person: Person, gymType: GymType | `${GymType}`, locationName: string): WorkStats;
+        gymGains(person: IPerson, gymType: GymType | `${GymType}`, locationName: string): WorkStats;
 
         /** @returns The WorkStats applied every game cycle (200ms) by taking the specified university class. */
         universityGains(
-            person: Person,
+            person: IPerson,
             classType: UniversityClassType | `${UniversityClassType}`,
             locationName: string
         ): WorkStats;
 
         /** @returns The WorkStats applied every game cycle (200ms) by performing the specified faction work. */
-        factionGains(person: Person, workType: FactionWorkType | `${FactionWorkType}`, favor: number): WorkStats;
+        factionGains(person: IPerson, workType: FactionWorkType | `${FactionWorkType}`, favor: number): WorkStats;
 
         /** @returns The WorkStats applied every game cycle (200ms) by performing the specified company work. */
-        companyGains(person: Person, companyName: string, workType: JobName | `${JobName}`, favor: number): WorkStats;
+        companyGains(person: IPerson, companyName: string, workType: JobName | `${JobName}`, favor: number): WorkStats;
     }
 
     /**
@@ -4001,7 +4001,7 @@ declare module "Bitburner" {
          * @param amount - Amount of money donated
          * @param player - Player info, typically from {@link NS.getPlayer | getPlayer}
          */
-        repFromDonation(amount: number, player: Person): number;
+        repFromDonation(amount: number, player: IPerson): number;
     }
 
     /**
@@ -4016,7 +4016,7 @@ declare module "Bitburner" {
          * @param player - Player info, typically from {@link NS.getPlayer | getPlayer}
          * @returns The calculated hack chance.
          */
-        hackChance(server: Server, player: Person): number;
+        hackChance(server: IServer, player: IPerson): number;
 
         /**
          * Calculate hack exp for one thread.
@@ -4026,7 +4026,7 @@ declare module "Bitburner" {
          * @param player - Player info, typically from {@link NS.getPlayer | getPlayer}
          * @returns The calculated hack exp.
          */
-        hackExp(server: Server, player: Person): number;
+        hackExp(server: IServer, player: IPerson): number;
 
         /**
          * Calculate hack percent for one thread.
@@ -4037,7 +4037,7 @@ declare module "Bitburner" {
          * @param player - Player info, typically from {@link NS.getPlayer | getPlayer}
          * @returns The calculated hack percent.
          */
-        hackPercent(server: Server, player: Person): number;
+        hackPercent(server: IServer, player: IPerson): number;
 
         /**
          * Calculate the percent a server would grow to.
@@ -4049,7 +4049,7 @@ declare module "Bitburner" {
          * @param cores - Number of cores on the computer that will execute grow.
          * @returns The calculated grow percent.
          */
-        growPercent(server: Server, threads: number, player: Person, cores?: number): number;
+        growPercent(server: IServer, threads: number, player: IPerson, cores?: number): number;
 
         /**
          * Calculate how many threads it will take to grow server to targetMoney. Starting money is
@@ -4060,7 +4060,7 @@ declare module "Bitburner" {
          * @param cores - Number of cores on the computer that will execute grow.
          * @returns The calculated grow threads as an integer, rounded up.
          */
-        growThreads(server: Server, player: Person, targetMoney: number, cores?: number): number;
+        growThreads(server: IServer, player: IPerson, targetMoney: number, cores?: number): number;
 
         /**
          * Calculate hack time.
@@ -4068,7 +4068,7 @@ declare module "Bitburner" {
          * @param player - Player info, typically from {@link NS.getPlayer | getPlayer}
          * @returns The calculated hack time.
          */
-        hackTime(server: Server, player: Person): number;
+        hackTime(server: IServer, player: IPerson): number;
 
         /**
          * Calculate grow time.
@@ -4076,7 +4076,7 @@ declare module "Bitburner" {
          * @param player - Player info, typically from {@link NS.getPlayer | getPlayer}
          * @returns The calculated grow time.
          */
-        growTime(server: Server, player: Person): number;
+        growTime(server: IServer, player: IPerson): number;
 
         /**
          * Calculate weaken time.
@@ -4084,7 +4084,7 @@ declare module "Bitburner" {
          * @param player - Player info, typically from {@link NS.getPlayer | getPlayer}
          * @returns The calculated weaken time.
          */
-        weakenTime(server: Server, player: Person): number;
+        weakenTime(server: IServer, player: IPerson): number;
     }
 
     /**
@@ -4294,11 +4294,11 @@ declare module "Bitburner" {
         /** Work formulas */
         work: WorkFormulas;
 
-        mockServer(): Server;
+        mockServer(): IServer;
 
-        mockPlayer(): Player;
+        mockPlayer(): IPlayer;
 
-        mockPerson(): Person;
+        mockPerson(): IPerson;
     }
 
     /** @public */
@@ -4444,7 +4444,7 @@ declare module "Bitburner" {
 
     /** @public */
     interface ILocation {
-        city: CityName;
+        city: ECityName;
         name: LocationName;
     }
 
@@ -5749,7 +5749,7 @@ declare module "Bitburner" {
          * @param host - Optional. Hostname for the requested server object.
          * @returns The requested server object.
          */
-        getServer(host?: string): Server;
+        getServer(host?: string): IServer;
 
         /**
          * Get money available on a server.
@@ -6664,7 +6664,7 @@ declare module "Bitburner" {
          *
          * @returns Player info
          */
-        getPlayer(): Player;
+        getPlayer(): IPlayer;
 
         /**
          * Get information about the sources of income for this run.
@@ -6909,7 +6909,7 @@ declare module "Bitburner" {
 
     /** Names of all cities
      * @public */
-    enum CityName {
+    enum ECityName {
         Aevum     = "Aevum",
         Chongqing = "Chongqing",
         Sector12  = "Sector-12",
@@ -6988,7 +6988,7 @@ declare module "Bitburner" {
 
     /** @public */
     export type NSEnums = {
-        CityName: typeof CityName;
+        CityName: typeof ECityName;
         CrimeType: typeof CrimeType;
         FactionWorkType: typeof FactionWorkType;
         GymType: typeof GymType;
@@ -7015,7 +7015,7 @@ declare module "Bitburner" {
          */
         hireEmployee(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             employeePosition?: CorpEmployeePosition
         ): boolean;
 
@@ -7025,7 +7025,7 @@ declare module "Bitburner" {
          * @param city - Name of the city
          * @param size - Amount of positions to open
          */
-        upgradeOfficeSize(divisionName: string, city: CityName | `${CityName}`, size: number): void;
+        upgradeOfficeSize(divisionName: string, city: ECityName | `${ECityName}`, size: number): void;
 
         /**
          * Throw a party for your employees
@@ -7034,7 +7034,7 @@ declare module "Bitburner" {
          * @param costPerEmployee - Amount to spend per employee.
          * @returns Multiplier for morale, or zero on failure
          */
-        throwParty(divisionName: string, city: CityName | `${CityName}`, costPerEmployee: number): number;
+        throwParty(divisionName: string, city: ECityName | `${ECityName}`, costPerEmployee: number): number;
 
         /**
          * Buy tea for your employees
@@ -7042,7 +7042,7 @@ declare module "Bitburner" {
          * @param city - Name of the city
          * @returns true if buying tea was successful, false otherwise
          */
-        buyTea(divisionName: string, city: CityName | `${CityName}`): boolean;
+        buyTea(divisionName: string, city: ECityName | `${ECityName}`): boolean;
 
         /**
          * Hire AdVert.
@@ -7063,7 +7063,7 @@ declare module "Bitburner" {
          * @param city - Name of the city
          * @returns Office data
          */
-        getOffice(divisionName: string, city: CityName | `${CityName}`): Office;
+        getOffice(divisionName: string, city: ECityName | `${ECityName}`): Office;
 
         /**
          * Get the cost to hire AdVert.
@@ -7105,7 +7105,7 @@ declare module "Bitburner" {
          */
         setAutoJobAssignment(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             job: string,
             amount: number
         ): boolean;
@@ -7117,7 +7117,7 @@ declare module "Bitburner" {
          * @param asize - Amount of positions to open
          * @returns Cost of upgrading the office
          */
-        getOfficeSizeUpgradeCost(divisionName: string, city: CityName | `${CityName}`, asize: number): number;
+        getOfficeSizeUpgradeCost(divisionName: string, city: ECityName | `${ECityName}`, asize: number): number;
     }
 
     /**
@@ -7137,7 +7137,7 @@ declare module "Bitburner" {
          */
         sellMaterial(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             materialName: string,
             amt: string,
             price: string
@@ -7154,7 +7154,7 @@ declare module "Bitburner" {
          */
         sellProduct(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             productName: string,
             amt: string,
             price: string,
@@ -7174,7 +7174,7 @@ declare module "Bitburner" {
          * @param city - Name of the city
          * @param enabled - smart supply enabled
          */
-        setSmartSupply(divisionName: string, city: CityName | `${CityName}`, enabled: boolean): void;
+        setSmartSupply(divisionName: string, city: ECityName | `${ECityName}`, enabled: boolean): void;
 
         /**
          * Set whether smart supply uses leftovers before buying
@@ -7186,7 +7186,7 @@ declare module "Bitburner" {
          */
         setSmartSupplyOption(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             materialName: string,
             option: CorpSmartSupplyOption
         ): void;
@@ -7198,7 +7198,7 @@ declare module "Bitburner" {
          * @param materialName - Name of the material
          * @param amt - Amount of material to buy
          */
-        buyMaterial(divisionName: string, city: CityName | `${CityName}`, materialName: string, amt: number): void;
+        buyMaterial(divisionName: string, city: ECityName | `${ECityName}`, materialName: string, amt: number): void;
 
         /**
          * Set material to bulk buy
@@ -7207,20 +7207,20 @@ declare module "Bitburner" {
          * @param materialName - Name of the material
          * @param amt - Amount of material to buy
          */
-        bulkPurchase(divisionName: string, city: CityName | `${CityName}`, materialName: string, amt: number): void;
+        bulkPurchase(divisionName: string, city: ECityName | `${ECityName}`, materialName: string, amt: number): void;
 
         /** Get warehouse data
          * @param divisionName - Name of the division
          * @param city - Name of the city
          * @returns warehouse data */
-        getWarehouse(divisionName: string, city: CityName | `${CityName}`): Warehouse;
+        getWarehouse(divisionName: string, city: ECityName | `${ECityName}`): Warehouse;
 
         /** Get product data
          * @param divisionName - Name of the division
          * @param cityName - Name of the city
          * @param productName - Name of the product
          * @returns product data */
-        getProduct(divisionName: string, cityName: CityName | `${CityName}`, productName: string): Product;
+        getProduct(divisionName: string, cityName: ECityName | `${ECityName}`, productName: string): Product;
 
         /**
          * Get material data
@@ -7229,7 +7229,7 @@ declare module "Bitburner" {
          * @param materialName - Name of the material
          * @returns material data
          */
-        getMaterial(divisionName: string, city: CityName | `${CityName}`, materialName: string): Material;
+        getMaterial(divisionName: string, city: ECityName | `${ECityName}`, materialName: string): Material;
 
         /**
          * Set market TA 1 for a material.
@@ -7240,7 +7240,7 @@ declare module "Bitburner" {
          */
         setMaterialMarketTA1(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             materialName: string,
             on: boolean
         ): void;
@@ -7254,7 +7254,7 @@ declare module "Bitburner" {
          */
         setMaterialMarketTA2(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             materialName: string,
             on: boolean
         ): void;
@@ -7282,9 +7282,9 @@ declare module "Bitburner" {
          */
         exportMaterial(
             sourceDivision: string,
-            sourceCity: CityName | `${CityName}`,
+            sourceCity: ECityName | `${ECityName}`,
             targetDivision: string,
-            targetCity: CityName | `${CityName}`,
+            targetCity: ECityName | `${ECityName}`,
             materialName: string,
             amt: number | string
         ): void;
@@ -7299,9 +7299,9 @@ declare module "Bitburner" {
          */
         cancelExportMaterial(
             sourceDivision: string,
-            sourceCity: CityName | `${CityName}`,
+            sourceCity: ECityName | `${ECityName}`,
             targetDivision: string,
-            targetCity: CityName | `${CityName}`,
+            targetCity: ECityName | `${ECityName}`,
             materialName: string
         ): void;
 
@@ -7310,7 +7310,7 @@ declare module "Bitburner" {
          * @param divisionName - Name of the division
          * @param city - Name of the city
          */
-        purchaseWarehouse(divisionName: string, city: CityName | `${CityName}`): void;
+        purchaseWarehouse(divisionName: string, city: ECityName | `${ECityName}`): void;
 
         /**
          * Upgrade warehouse
@@ -7318,7 +7318,7 @@ declare module "Bitburner" {
          * @param city - Name of the city
          * @param amt - amount of upgrades defaults to 1
          */
-        upgradeWarehouse(divisionName: string, city: CityName | `${CityName}`, amt?: number): void;
+        upgradeWarehouse(divisionName: string, city: ECityName | `${ECityName}`, amt?: number): void;
 
         /**
          * Create a new product
@@ -7330,7 +7330,7 @@ declare module "Bitburner" {
          */
         makeProduct(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             productName: string,
             designInvest: number,
             marketingInvest: number
@@ -7345,7 +7345,7 @@ declare module "Bitburner" {
          */
         limitMaterialProduction(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             materialName: string,
             qty: number
         ): void;
@@ -7359,7 +7359,7 @@ declare module "Bitburner" {
          */
         limitProductProduction(
             divisionName: string,
-            city: CityName | `${CityName}`,
+            city: ECityName | `${ECityName}`,
             productName: string,
             qty: number
         ): void;
@@ -7371,13 +7371,13 @@ declare module "Bitburner" {
          * @param amt - amount of upgrades. Optional, defaults to 1
          * @returns cost to upgrade
          */
-        getUpgradeWarehouseCost(divisionName: string, city: CityName | `${CityName}`, amt?: number): number;
+        getUpgradeWarehouseCost(divisionName: string, city: ECityName | `${ECityName}`, amt?: number): number;
 
         /**
          * Check if you have a warehouse in city
          * @returns true if warehouse is present, false if not
          */
-        hasWarehouse(divisionName: string, city: CityName | `${CityName}`): boolean;
+        hasWarehouse(divisionName: string, city: ECityName | `${ECityName}`): boolean;
     }
 
     /**
@@ -7463,7 +7463,7 @@ declare module "Bitburner" {
         /** Expand to a new city
          * @param divisionName - Name of the division
          * @param city - Name of the city */
-        expandCity(divisionName: string, city: CityName | `${CityName}`): void;
+        expandCity(divisionName: string, city: ECityName | `${ECityName}`): void;
 
         /** Unlock an upgrade
          * @param upgradeName - Name of the upgrade */
@@ -7820,7 +7820,7 @@ declare module "Bitburner" {
         /** Division the material is being exported to */
         division: string;
         /** City the material is being exported to */
-        city: CityName;
+        city: ECityName;
         /** Amount of material exported */
         amount: string;
     }
@@ -7833,7 +7833,7 @@ declare module "Bitburner" {
         /** Amount of size upgrade bought */
         level: number;
         /** City in which the warehouse is located */
-        city: CityName;
+        city: ECityName;
         /** Total space in the warehouse */
         size: number;
         /** Used space in the warehouse */
@@ -7848,7 +7848,7 @@ declare module "Bitburner" {
      */
     export interface Office {
         /** City of the office */
-        city: CityName;
+        city: ECityName;
         /** Maximum number of employee */
         size: number;
         /** Maximum amount of energy of the employees */
@@ -7897,7 +7897,7 @@ declare module "Bitburner" {
         /** Number of times AdVert has been bought */
         numAdVerts: number;
         /** Cities in which this division has expanded */
-        cities: CityName[];
+        cities: ECityName[];
         /** Names of Products developed by this division */
         products: string[];
         /** Whether the industry this division is in is capable of making products */

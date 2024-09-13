@@ -88,6 +88,30 @@ export module Constants {
         P1   = 1 << 20
     }
 
+    export const ServerSizeStr = {
+        "2GB": 2,
+        "4GB": 2 << 1,
+        "8GB": 2 << 2,
+        "16GB": 2 << 3,
+        "32GB": 2 << 4,
+        "64GB": 2 << 5,
+        "128GB": 2 << 6,
+        "256GB": 2 << 7,
+        "512GB": 2 << 8,
+        "1TB": 2 << 9,
+        "2TB": 2 << 10,
+        "4TB": 2 << 11,
+        "8TB": 2 << 12,
+        "16TB": 2 << 13,
+        "32TB": 2 << 14,
+        "64TB": 2 << 15,
+        "128TB": 2 << 16,
+        "256TB": 2 << 17,
+        "512TB": 2 << 18,
+        "1PB": 2 << 19,
+    }
+    export const ServerSizes = ["2GB","4GB","8GB","16GB","32GB","64GB","128GB","256GB","512GB","1TB","2TB","4TB","8TB","16TB","32TB","64TB","128TB","256TB","512TB","1PB"]
+
     export type StockSymbol =
         | "ECP"
         | "MGCP"
